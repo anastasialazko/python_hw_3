@@ -1,26 +1,34 @@
+from collections import Counter
+
+
 class CountVectorizer():
     def __init__(self):
-        self.feature_names = {}
-        self.count_matrix = []
+        self.feature_names = set()
 
-    def fit_transform(self, corpus: list) -> []:
-        index = 0
+    def fit(self, corpus) -> list:
+        splitted_sentences = []
         for sentence in corpus:
-            for word in sentence.lower().split():
-                if word not in self.feature_names:
-                    self.feature_names[word] = index
-                    index += 1
+            splitted_sentence = sentence.lower().split()
+            for word in splitted_sentence:
+                self.feature_names.add(word)
+            splitted_sentences.append(splitted_sentence)
+        return splitted_sentences
 
-        for sentence in corpus:
-            count_words = [0] * len(self.feature_names)
-            for word in sentence.lower().split():
-                count_words[self.feature_names[word]] += 1
-            self.count_matrix.append(count_words)
+    def transform(self, corpus) -> list:
+        matrix = []
+        for sentence in self.fit(corpus):
+            count_words_in_sentence = []
+            counter = Counter(sentence)
+            for word in self.feature_names:
+                count_words_in_sentence.append(counter.get(word, 0))
+            matrix.append(count_words_in_sentence)
+        return matrix
 
-        return self.count_matrix
+    def fit_transform(self, corpus):
+        return self.transform(corpus)
 
-    def get_feature_names(self) -> []:
-        return list(self.feature_names.keys())
+    def get_feature_names(self) -> set:
+        return self.feature_names
 
 
 if __name__ == '__main__':
