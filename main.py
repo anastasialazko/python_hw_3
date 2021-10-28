@@ -1,9 +1,9 @@
 class CountVectorizer():
     def __init__(self):
        self.feature_names = {}
-       self.count_matrix = []
 
     def fit_transform(self, corpus: list) -> []:
+       count_matrix = []
        index = 0
        splitted_sentences = []
         for sentence in corpus:
@@ -18,7 +18,7 @@ class CountVectorizer():
             count_words = [0] * len(self.feature_names)
             for word in sentence:
                 count_words[self.feature_names[word]] += 1
-            self.count_matrix.append(count_words)
+            count_matrix.append(count_words)
             
         return self.count_matrix
 
