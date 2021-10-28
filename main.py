@@ -20,7 +20,7 @@ class CountVectorizer():
                 count_words[self.feature_names[word]] += 1
             count_matrix.append(count_words)
             
-        return self.count_matrix
+        return count_matrix
 
     def get_feature_names(self) -> []:
         return list(self.feature_names.keys())
